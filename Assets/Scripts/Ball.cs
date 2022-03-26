@@ -6,37 +6,51 @@ public class Ball : MonoBehaviour
 {
     public float shotPower;
     Rigidbody2D myRigid;
-    bool isShot;
+    public bool isShot, isUp;
+    public Vector2 previousPos;
+
+    float timer;
     void Start()
     {
         myRigid = GetComponent<Rigidbody2D>();
         isShot = false;
+        timer = 0;
+        previousPos = transform.position;
+        GameManager.instance.UI.SetActive(true);
     }
 
     void Update()
     {
-        //Shot();
+        if (transform.position.y <= -15)
+        {
+            myRigid.velocity = new Vector2(0, 0);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            isShot = false;
+            transform.position = previousPos;
+        }
 
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(transform.position.x, transform.position.y , -10), 1f);
+        if ((Mathf.Abs(myRigid.velocity.x) <= 0.05f && Mathf.Abs(myRigid.velocity.y) <= 0.05f) && isShot)
+        {
+            timer += Time.deltaTime;
+            if(timer >= 0.5f)
+            {
+                isShot = false;
+                previousPos = transform.position;
+                GameManager.instance.UI.SetActive(true);
+                timer = 0;
+            }
+            
+        }
+
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(transform.position.x, transform.position.y+1.5f , -10), 1f);
     }
 
-    void Shot()
+    public void Shot()
     {
-        if (Input.GetMouseButtonDown(0) && !isShot)
+        if (!isShot)
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 desPos = mousePos - transform.position;
-            float angle = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
             myRigid.velocity = transform.up * shotPower;
             isShot = true;
         }
-
-        if ((Mathf.Abs(myRigid.velocity.x) <= 0.1f && Mathf.Abs(myRigid.velocity.y) <= 0.1f) && isShot)
-        {
-            isShot = false;
-        }
     }
-
-    
 }

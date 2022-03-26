@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-    Ball ball;
+    public Ball ball;
 
     RectTransform joystickBG;
     RectTransform joystick;
@@ -14,8 +14,8 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     void Start()
     {
         ball = GameObject.Find("Ball").GetComponent<Ball>();
-        joystickBG = GameObject.Find("Canvas").transform.Find("Joystick").transform.Find("JoystickBG").GetComponent<RectTransform>();
-        joystick = GameObject.Find("Canvas").transform.Find("Joystick").transform.Find("JoystickBG/Joystick").GetComponent<RectTransform>();
+        joystickBG = GameManager.instance.UI.transform.Find("Joystick").transform.Find("JoystickBG").GetComponent<RectTransform>();
+        joystick = GameManager.instance.UI.transform.Find("Joystick").transform.Find("JoystickBG/Joystick").GetComponent<RectTransform>();
         joystickRadius = joystickBG.rect.width * 0.5f;
     }
 

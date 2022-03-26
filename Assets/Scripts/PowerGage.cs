@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
-public class PowerGage : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
+public class PowerGage : MonoBehaviour
 {
-    Ball ball;
+    public Ball ball;
     Slider gage;
+    Text text;
     bool isUp;
     float power;
+
+    float number;
     void Start()
     {
         ball = GameObject.Find("Ball").GetComponent<Ball>();
-        gage = GameObject.Find("Canvas").transform.Find("Power Gage").transform.Find("GageBG").GetComponent<Slider>();
+        gage = GameManager.instance.UI.transform.Find("Power Gage").transform.Find("GageBG").GetComponent<Slider>();
+        text = gage.transform.Find("Text").GetComponent<Text>();
         isUp = false;
+        number = 1;
     }
 
 
@@ -22,31 +26,41 @@ public class PowerGage : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoin
     {
         if (isUp)
         {
+            gage.value += number * Time.deltaTime;
+            if(gage.value >= gage.maxValue) number = -1;
+            if(gage.value <= gage.minValue) number = 1;
             power = gage.value;
-            ball.shotPower = power;
-        }
-        else
-        {
-            power = 0;
-            gage.value = 0.3f;
-            ball.shotPower = power;
+            text.text = (int)(gage.value * 100)+"%";
         }
         
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public void ButtonClick()
     {
-        isUp = true;
-        print("s");
+        
+        if (!ball.isShot)
+        {
+            if (isUp)
+            {
+                Shot();
+                Cancle();
+                return;
+            }
+            isUp = true;
+            
+        }
     }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        isUp = true;
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
+    public void Cancle()
     {
         isUp = false;
+        power = 0;
+        gage.value = 0f;
+    }
+
+    void Shot()
+    {
+        GameManager.instance.UI.SetActive(false);
+        ball.shotPower = 40 * power;
+        ball.Shot();
     }
 }
