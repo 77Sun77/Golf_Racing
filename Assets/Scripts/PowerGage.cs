@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class PowerGage : MonoBehaviour
+public class PowerGage : MonoBehaviour, IPointerDownHandler
 {
     public Ball ball;
     Slider gage;
@@ -37,7 +38,6 @@ public class PowerGage : MonoBehaviour
 
     public void ButtonClick()
     {
-        
         if (!ball.isShot)
         {
             if (isUp)
@@ -62,5 +62,9 @@ public class PowerGage : MonoBehaviour
         GameManager.instance.UI.SetActive(false);
         ball.shotPower = 40 * power;
         ball.Shot();
+    }
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        ButtonClick();
     }
 }

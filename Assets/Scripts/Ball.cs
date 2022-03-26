@@ -6,7 +6,7 @@ public class Ball : MonoBehaviour
 {
     public float shotPower;
     Rigidbody2D myRigid;
-    public bool isShot, isUp;
+    public bool isShot, isGole;
     public Vector2 previousPos;
 
     float timer;
@@ -14,6 +14,7 @@ public class Ball : MonoBehaviour
     {
         myRigid = GetComponent<Rigidbody2D>();
         isShot = false;
+        isGole = false;
         timer = 0;
         previousPos = transform.position;
         GameManager.instance.UI.SetActive(true);
@@ -21,28 +22,28 @@ public class Ball : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.y <= -15)
-        {
-            myRigid.velocity = new Vector2(0, 0);
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            isShot = false;
-            transform.position = previousPos;
-        }
-
         if ((Mathf.Abs(myRigid.velocity.x) <= 0.05f && Mathf.Abs(myRigid.velocity.y) <= 0.05f) && isShot)
         {
             timer += Time.deltaTime;
             if(timer >= 0.5f)
             {
-                isShot = false;
-                previousPos = transform.position;
-                GameManager.instance.UI.SetActive(true);
-                timer = 0;
+                if (isGole)
+                {
+                    GameManager.instance.GameClear();
+                }
+                else
+                {
+                    isShot = false;
+                    previousPos = transform.position;
+                    GameManager.instance.UI.SetActive(true);
+                    timer = 0;
+                }
+                
             }
             
         }
 
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(transform.position.x, transform.position.y+1.5f , -10), 1f);
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(transform.position.x, transform.position.y+1.5f , -10),1f);
     }
 
     public void Shot()
@@ -51,6 +52,14 @@ public class Ball : MonoBehaviour
         {
             myRigid.velocity = transform.up * shotPower;
             isShot = true;
+        }
+    }
+
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.tag == "Gole")
+        {
+            isGole = true;
         }
     }
 }
