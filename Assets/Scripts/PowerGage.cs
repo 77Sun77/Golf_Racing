@@ -60,7 +60,7 @@ public class PowerGage : MonoBehaviour, IPointerDownHandler
     void Shot()
     {
         GameManager.instance.UI.SetActive(false);
-        ball.shotPower = 40 * power;
+        ball.shootPower = 40 * power;
         ball.Shot();
     }
     public void OnPointerDown(PointerEventData eventData)

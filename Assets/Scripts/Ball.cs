@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    public float shotPower;
+    public float shootPower;
     Rigidbody2D myRigid;
     public bool isShot, isGole;
     public Vector2 previousPos;
@@ -37,6 +37,7 @@ public class Ball : MonoBehaviour
                     previousPos = transform.position;
                     GameManager.instance.UI.SetActive(true);
                     timer = 0;
+                    
                 }
                 
             }
@@ -50,16 +51,25 @@ public class Ball : MonoBehaviour
     {
         if (!isShot)
         {
-            myRigid.velocity = transform.up * shotPower;
+            myRigid.velocity = transform.up * shootPower;
+            GameManager.instance.bounceCount += 1;
             isShot = true;
         }
     }
 
-    public void OnTriggerStay2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Gole")
+        if(collision.tag == "Hole")
         {
             isGole = true;
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Hole")
+        {
+            isGole = false;
         }
     }
 }

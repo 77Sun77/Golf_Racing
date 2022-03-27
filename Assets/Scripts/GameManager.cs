@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,28 +11,63 @@ public class GameManager : MonoBehaviour
     public GameObject Ball;
     Ball ball;
 
-    public string stage;
+    public static string mapName = "Map17";
+    public static string stageName;
 
     Vector2 previousPos;
-    float timer;
-
+    float deathTimer;
+    
     public GameObject StageClear;
+    Stage stage;
+    bool isClear;
+
+    public static float timer = 10;
+    GameObject timerParent;
+    Text timerText;
+    bool isTimeOver;
+
+    public static int maxBounceCount;
+    public int bounceCount;
+    GameObject bounceParent;
+    Text bounceText;
+
+
+    public int starNum;
+    Image starImage;
+    public Sprite[] star;
+
+
     void Awake()
     {
         instance = this;
         UI = GameObject.Find("Canvas").transform.Find("UI").gameObject;
         ball = GameObject.Find("Ball").GetComponent<Ball>();
-        GameObject.Find("Map").transform.Find(stage).gameObject.SetActive(true);
+        GameObject.Find("Map").transform.Find(mapName).gameObject.SetActive(true);
+
         StageClear = GameObject.Find("Canvas").transform.Find("StageClear").gameObject;
-        timer = 0;
+        stage = StageClear.GetComponent<Stage>();
+        isClear = false;
+        deathTimer = 0;
+
+        timerParent = GameObject.Find("Timer");
+        timerText = GameObject.Find("TimerText").GetComponent<Text>();
+        isTimeOver = false;
+
+        bounceParent = GameObject.Find("ShotCount");
+        bounceText = GameObject.Find("CountText").GetComponent<Text>();
+
+        starNum = 3;
+        starImage = StageClear.transform.Find("BG").transform.Find("Star").GetComponent<Image>();
+
+        bounceCount = 0;
     }
 
     void Update()
     {
         if (ball == null)
         {
-            timer += Time.deltaTime;
-            if (timer >= 2)
+            deathTimer += Time.deltaTime;
+            if (deathTimer >= 2)
             {
                 ball = Instantiate(Ball).GetComponent<Ball>();
                 UI.transform.Find("Joystick").GetComponent<Joystick>().ball = ball;
@@ -39,7 +75,7 @@ public class GameManager : MonoBehaviour
                 UI.SetActive(true);
                 ball.transform.position = previousPos;
                 ball.previousPos = previousPos;
-                timer = 0;
+                deathTimer = 0;
             }
             
         }
@@ -49,11 +85,81 @@ public class GameManager : MonoBehaviour
             Destroy(ball.gameObject);
         }
 
-        
+        if(timerParent != null && !isClear)
+        {
+            if (timer <= 1)
+            {
+                timerParent.transform.Translate(transform.up * 150 * Time.deltaTime);
+                if(!isTimeOver)
+                {
+                    isTimeOver = true;
+                    starNum -= 1;
+                }
+                if (timerParent.transform.localPosition.y >= 170)
+                {
+                    Destroy(timerParent);
+                }
+                
+            }
+            else
+            {
+                timer -= Time.deltaTime;
+                timerText.text = ((int)timer).ToString();
+            }
+        }
+
+        if (bounceParent != null)
+        {
+            if(bounceCount > maxBounceCount)
+            {
+                bounceParent.transform.Translate(transform.up * 150 * Time.deltaTime);
+                if (bounceParent.transform.localPosition.y >= 170)
+                {
+                    starNum -= 1;
+                    Destroy(bounceParent);
+                }
+            }
+            else
+            {
+                bounceText.text = bounceCount + " / " + maxBounceCount;
+            }
+        }
     }
 
     public void GameClear()
     {
         StageClear.SetActive(true);
+        isClear = true;
+        starImage.sprite = star[starNum - 1];
+
+        if(mapName != "Map18")
+        {
+            string map_Name = "";
+            for (int i = 3; i < mapName.Length; i++)
+            {
+                map_Name += mapName[i];
+            }
+            int mapNum = int.Parse(map_Name) + 1;
+
+            PlayerPrefs.SetInt("Map" + mapNum, 0);
+        }
+        PlayerPrefs.SetInt(mapName, starNum);
+    }
+
+    public static void StageReset(string stage, string map, float Timer, int BounceCount)
+    {
+        stageName = stage;
+        mapName = map;
+        timer = Timer+1;
+        maxBounceCount = BounceCount;
+    }
+
+    public void Retry()
+    {
+        stage.Retry(stage, stageName, mapName);
+    }
+    public void NextGame()
+    {
+        stage.NextMap(stage, stageName, mapName);
     }
 }

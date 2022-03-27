@@ -7,7 +7,7 @@ public class StageClear : MonoBehaviour
     RectTransform background;
     void Start()
     {
-        background = transform.Find("BG").GetComponent<RectTransform>();
+        background = gameObject.transform.Find("BG").GetComponent<RectTransform>();
         StartCoroutine(Clear());
     }
 
