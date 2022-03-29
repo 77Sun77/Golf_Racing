@@ -10,7 +10,7 @@ public class Stage : MonoBehaviour
 
     void Start()
     {
-        stageName = transform.parent.name;
+        if(transform.parent != null) stageName = transform.parent.name;
         mapName = transform.name;
     }
 
@@ -26,8 +26,9 @@ public class Stage : MonoBehaviour
         this.mapName = map;
         stage.SendMessage(mapName);
     }
-    public void MoveMenu()
+    public void MoveMenu(string stageName)
     {
+        SettingManager.isStageOpen = true;
         SceneManager.LoadScene("Menu");
     }
     public void NextMap(Stage stage, string stageName, string nextMap)
@@ -53,12 +54,12 @@ public class Stage : MonoBehaviour
     }
     public void Stage1_Map3()
     {
-        GameManager.StageReset(stageName, mapName, 15, 3);
+        GameManager.StageReset(stageName, mapName, 10, 1);
         MoveScene();
     }
     public void Stage1_Map4()
     {
-        GameManager.StageReset(stageName, mapName, 15, 3);
+        GameManager.StageReset(stageName, mapName, 15, 2);
         MoveScene();
     }
     public void Stage1_Map5()
@@ -98,7 +99,7 @@ public class Stage : MonoBehaviour
     }
     public void Stage1_Map12()
     {
-        GameManager.StageReset(stageName, mapName, 55, 10);
+        GameManager.StageReset(stageName, mapName, 30, 10);
         MoveScene();
     }
     public void Stage1_Map13()
@@ -113,7 +114,7 @@ public class Stage : MonoBehaviour
     }
     public void Stage1_Map15()
     {
-        GameManager.StageReset(stageName, mapName, 75, 10);
+        GameManager.StageReset(stageName, mapName, 45, 10);
         MoveScene();
     }
     public void Stage1_Map16()
@@ -123,7 +124,7 @@ public class Stage : MonoBehaviour
     }
     public void Stage1_Map17()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 60, 5);
         MoveScene();
     }
     public void Stage1_Map18()

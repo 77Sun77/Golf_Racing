@@ -30,11 +30,13 @@ public class Ball : MonoBehaviour
                 if (isGole)
                 {
                     GameManager.instance.GameClear();
+                    isShot = false;
                 }
                 else
                 {
                     isShot = false;
                     previousPos = transform.position;
+                    myRigid.freezeRotation = true;
                     GameManager.instance.UI.SetActive(true);
                     timer = 0;
                     
@@ -51,6 +53,7 @@ public class Ball : MonoBehaviour
     {
         if (!isShot)
         {
+            myRigid.freezeRotation = false;
             myRigid.velocity = transform.up * shootPower;
             GameManager.instance.bounceCount += 1;
             isShot = true;

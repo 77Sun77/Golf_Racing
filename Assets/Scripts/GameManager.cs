@@ -37,15 +37,19 @@ public class GameManager : MonoBehaviour
     public Sprite[] star;
 
 
+    bool isMenuOnOff;
+    GameObject menuWindow;
+
     void Awake()
     {
         instance = this;
+        Time.timeScale = 1;
         UI = GameObject.Find("Canvas").transform.Find("UI").gameObject;
         ball = GameObject.Find("Ball").GetComponent<Ball>();
         GameObject.Find("Map").transform.Find(mapName).gameObject.SetActive(true);
 
         StageClear = GameObject.Find("Canvas").transform.Find("StageClear").gameObject;
-        stage = StageClear.GetComponent<Stage>();
+        stage = GetComponent<Stage>();
         isClear = false;
         deathTimer = 0;
 
@@ -60,10 +64,16 @@ public class GameManager : MonoBehaviour
         starImage = StageClear.transform.Find("BG").transform.Find("Star").GetComponent<Image>();
 
         bounceCount = 0;
+
+        isMenuOnOff = false;
+
+        menuWindow = GameObject.Find("Canvas").transform.Find("Menu").gameObject;
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape)) GameMenuOnOff();
+
         if (ball == null)
         {
             deathTimer += Time.deltaTime;
@@ -141,9 +151,10 @@ public class GameManager : MonoBehaviour
             }
             int mapNum = int.Parse(map_Name) + 1;
 
-            PlayerPrefs.SetInt("Map" + mapNum, 0);
+            if (!PlayerPrefs.HasKey("Map"+mapNum.ToString())) PlayerPrefs.SetInt("Map" + mapNum, 0);
+
         }
-        PlayerPrefs.SetInt(mapName, starNum);
+        if(PlayerPrefs.HasKey(stageName) && PlayerPrefs.GetInt(mapName) < starNum) PlayerPrefs.SetInt(mapName, starNum);
     }
 
     public static void StageReset(string stage, string map, float Timer, int BounceCount)
@@ -158,8 +169,20 @@ public class GameManager : MonoBehaviour
     {
         stage.Retry(stage, stageName, mapName);
     }
+    public void MoveMenu()
+    {
+        stage.MoveMenu(stageName);
+    }
     public void NextGame()
     {
         stage.NextMap(stage, stageName, mapName);
+    }
+
+    public void GameMenuOnOff()
+    {
+        isMenuOnOff = !isMenuOnOff;
+        menuWindow.SetActive(isMenuOnOff);
+        if (Time.timeScale == 0) Time.timeScale = 1;
+        else Time.timeScale = 0;
     }
 }
