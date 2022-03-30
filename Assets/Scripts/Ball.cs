@@ -75,4 +75,12 @@ public class Ball : MonoBehaviour
             isGole = false;
         }
     }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Thorn")
+        {
+            GameManager.instance.Death();
+        }
+    }
 }

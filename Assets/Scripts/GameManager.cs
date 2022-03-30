@@ -91,8 +91,7 @@ public class GameManager : MonoBehaviour
         }
         else if (ball.transform.position.y <= -15)
         {
-            previousPos = ball.previousPos;
-            Destroy(ball.gameObject);
+            Death();
         }
 
         if(timerParent != null && !isClear)
@@ -184,5 +183,12 @@ public class GameManager : MonoBehaviour
         menuWindow.SetActive(isMenuOnOff);
         if (Time.timeScale == 0) Time.timeScale = 1;
         else Time.timeScale = 0;
+    }
+
+    public void Death()
+    {
+        previousPos = ball.previousPos;
+        UI.SetActive(false);
+        Destroy(ball.gameObject);
     }
 }

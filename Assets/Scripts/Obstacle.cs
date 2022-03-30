@@ -7,9 +7,9 @@ public class Obstacle : MonoBehaviour
     public enum ObstacleType { Propeller, GroundTrap, Wall };
     public ObstacleType obstacleType;
 
-    public bool clockwise; // ÇÁ·ÎÆç·¯
+    public bool clockwise; // ï¿½ï¿½ï¿½ï¿½ï¿½ç·¯
 
-    SpriteRenderer sprite; // ¶¥ ÇÔÁ¤
+    SpriteRenderer sprite; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     float alpha;
     float timer;
     bool isAlpha;
@@ -54,6 +54,34 @@ public class Obstacle : MonoBehaviour
                 {
                     isAlpha = false;
                     timer = 0.5f;
+                }
+            }
+            timer -= Time.deltaTime;
+        }
+
+        if(obstacleType == ObstacleType.Wall)
+        {
+            if (!isAlpha && timer <= 0)
+            {
+                sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, alpha / 255);
+                alpha -= 200 * Time.deltaTime;
+                
+                if(alpha < 0)
+                {
+                    isAlpha = true;
+                    timer = 0.5f;
+                    GetComponent<BoxCollider2D>().enabled = false;
+                }
+            }
+            if (isAlpha && timer <= 0)
+            {
+                GetComponent<BoxCollider2D>().enabled = true;
+                sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, alpha / 255);
+                alpha += 200 * Time.deltaTime;
+                if(alpha >= 255)
+                {
+                    isAlpha = false;
+                    timer = 3;
                 }
             }
             timer -= Time.deltaTime;

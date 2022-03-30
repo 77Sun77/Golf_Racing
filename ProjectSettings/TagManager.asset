@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PowerGage
   - Hole
+  - Thorn
   layers:
   - Default
   - TransparentFX

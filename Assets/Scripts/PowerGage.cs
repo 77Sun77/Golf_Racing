@@ -19,7 +19,7 @@ public class PowerGage : MonoBehaviour, IPointerDownHandler
         gage = GameManager.instance.UI.transform.Find("Power Gage").transform.Find("GageBG").GetComponent<Slider>();
         text = gage.transform.Find("Text").GetComponent<Text>();
         isUp = false;
-        number = 0.5f;
+        number = 0.65f;
     }
 
 
@@ -28,8 +28,8 @@ public class PowerGage : MonoBehaviour, IPointerDownHandler
         if (isUp)
         {
             gage.value += number * Time.deltaTime;
-            if(gage.value >= gage.maxValue) number = -0.5f;
-            if(gage.value <= gage.minValue) number = 0.5f;
+            if(gage.value >= gage.maxValue) number = -0.65f;
+            if(gage.value <= gage.minValue) number = 0.65f;
             power = gage.value;
             text.text = (int)(gage.value * 100)+"%";
         }
