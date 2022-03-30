@@ -31,8 +31,13 @@ public class SettingManager : MonoBehaviour
         {
             StageObject.SetActive(true);
             StageObject.transform.Find("BG").transform.Find(stageName).gameObject.SetActive(true);
-            stageText.text = stageName;
             isStageOpen = false;
+        }
+
+        if (isMenu)
+        {
+            if (stage1.active) stageText.text = "Stage 1";
+            else if (stage2.active) stageText.text = "Stage 2";
         }
     }
 
@@ -40,18 +45,33 @@ public class SettingManager : MonoBehaviour
     {
         isMenu = true;
         stage1 = GameObject.Find("Canvas").transform.Find("Stage").transform.Find("BG").transform.Find("Stage1").gameObject;
-
+        stage2 = GameObject.Find("Canvas").transform.Find("Stage").transform.Find("BG").transform.Find("Stage2").gameObject;
         for (int i = 0; i < 18; i++)
         {
             string mapName = "Map" + (i + 1).ToString();
-            if (PlayerPrefs.HasKey(mapName))
+            if (PlayerPrefs.HasKey("Stage1_" + mapName))
             {
                 stage1.transform.Find(mapName).transform.Find("StarBG").gameObject.SetActive(true);
                 stage1.transform.Find(mapName).GetComponent<Button>().interactable = true;
-                if (PlayerPrefs.GetInt(mapName) != 0)
+                if (PlayerPrefs.GetInt("Stage1_" + mapName) != 0)
                 {
                     stage1.transform.Find(mapName).transform.Find("Star").gameObject.SetActive(true);
-                    stage1.transform.Find(mapName).transform.Find("Star").GetComponent<Image>().sprite = star[PlayerPrefs.GetInt(mapName) - 1];
+                    stage1.transform.Find(mapName).transform.Find("Star").GetComponent<Image>().sprite = star[PlayerPrefs.GetInt("Stage1_" + mapName) - 1];
+                }
+
+            }
+        }
+        for (int i = 0; i < 18; i++)
+        {
+            string mapName = "Map" + (i + 1).ToString();
+            if (PlayerPrefs.HasKey("Stage2_" + mapName))
+            {
+                stage2.transform.Find(mapName).transform.Find("StarBG").gameObject.SetActive(true);
+                stage2.transform.Find(mapName).GetComponent<Button>().interactable = true;
+                if (PlayerPrefs.GetInt("Stage2_" + mapName) != 0)
+                {
+                    stage2.transform.Find(mapName).transform.Find("Star").gameObject.SetActive(true);
+                    stage2.transform.Find(mapName).transform.Find("Star").GetComponent<Image>().sprite = star[PlayerPrefs.GetInt("Stage2_" + mapName) - 1];
                 }
 
             }

@@ -150,10 +150,10 @@ public class GameManager : MonoBehaviour
             }
             int mapNum = int.Parse(map_Name) + 1;
 
-            if (!PlayerPrefs.HasKey("Map"+mapNum.ToString())) PlayerPrefs.SetInt("Map" + mapNum, 0);
+            if (!PlayerPrefs.HasKey(stageName + "_" + "Map" +mapNum.ToString())) PlayerPrefs.SetInt(stageName+"_"+"Map" + mapNum, 0);
 
         }
-        if(PlayerPrefs.HasKey(stageName) && PlayerPrefs.GetInt(mapName) < starNum) PlayerPrefs.SetInt(mapName, starNum);
+        if(PlayerPrefs.GetInt(stageName+"_"+mapName) < starNum || !PlayerPrefs.HasKey(stageName + "_" + mapName)) PlayerPrefs.SetInt(stageName + "_"+mapName, starNum);
     }
 
     public static void StageReset(string stage, string map, float Timer, int BounceCount)
