@@ -160,7 +160,7 @@ public class GameManager : MonoBehaviour
     {
         stageName = stage;
         mapName = map;
-        timer = Timer+1;
+        timer = Timer+0.9f;
         maxBounceCount = BounceCount;
     }
 

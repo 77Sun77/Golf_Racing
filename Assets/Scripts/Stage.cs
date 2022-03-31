@@ -135,62 +135,62 @@ public class Stage : MonoBehaviour
 
     public void Stage2_Map1()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 10, 1);
         MoveScene();
     }
     public void Stage2_Map2()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 10, 1);
         MoveScene();
     }
     public void Stage2_Map3()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 10, 1);
         MoveScene();
     }
     public void Stage2_Map4()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 10, 1);
         MoveScene();
     }
     public void Stage2_Map5()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 15, 2);
         MoveScene();
     }
     public void Stage2_Map6()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 10, 1);
         MoveScene();
     }
     public void Stage2_Map7()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 20, 3);
         MoveScene();
     }
     public void Stage2_Map8()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 30, 3);
         MoveScene();
     }
     public void Stage2_Map9()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 30, 3);
         MoveScene();
     }
     public void Stage2_Map10()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 35, 5);
         MoveScene();
     }
     public void Stage2_Map11()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 35, 5);
         MoveScene();
     }
     public void Stage2_Map12()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 45, 5);
         MoveScene();
     }
     public void Stage2_Map13()
@@ -200,27 +200,27 @@ public class Stage : MonoBehaviour
     }
     public void Stage2_Map14()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 20, 3);
         MoveScene();
     }
     public void Stage2_Map15()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 50, 10);
         MoveScene();
     }
     public void Stage2_Map16()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 60, 5);
         MoveScene();
     }
     public void Stage2_Map17()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 40, 5);
         MoveScene();
     }
     public void Stage2_Map18()
     {
-        GameManager.StageReset(stageName, mapName, 30, 5);
+        GameManager.StageReset(stageName, mapName, 90, 15);
         MoveScene();
     }
 }
