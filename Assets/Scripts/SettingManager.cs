@@ -17,11 +17,16 @@ public class SettingManager : MonoBehaviour
     public GameObject StageObject;
     public Text stageText;
 
+    int AllStar;
+    public Button stage2Button;
+    public Text stage2Text;
+
     void Start()
     {
+        AllStar = 0;
         if (GameManager.instance == null) FirstSetting();
         if (GameManager.stageName != "") stageName = GameManager.stageName;
-
+        
     }
 
 
@@ -39,6 +44,20 @@ public class SettingManager : MonoBehaviour
             if (stage1.active) stageText.text = "Stage 1";
             else if (stage2.active) stageText.text = "Stage 2";
         }
+
+        if(isMenu && PlayerPrefs.GetInt("Stage1_Map18") > 0)
+        {
+            if (AllStar >= 50)
+            {
+                stage2Button.interactable = true;
+            }
+            else
+            {
+                stage2Text.gameObject.SetActive(true);
+                stage2Text.text = AllStar + "/50";
+            }
+        }
+
     }
 
     void FirstSetting()
@@ -57,6 +76,8 @@ public class SettingManager : MonoBehaviour
                 {
                     stage1.transform.Find(mapName).transform.Find("Star").gameObject.SetActive(true);
                     stage1.transform.Find(mapName).transform.Find("Star").GetComponent<Image>().sprite = star[PlayerPrefs.GetInt("Stage1_" + mapName) - 1];
+                    AllStar += PlayerPrefs.GetInt("Stage1_" + mapName);
+
                 }
 
             }
@@ -72,6 +93,7 @@ public class SettingManager : MonoBehaviour
                 {
                     stage2.transform.Find(mapName).transform.Find("Star").gameObject.SetActive(true);
                     stage2.transform.Find(mapName).transform.Find("Star").GetComponent<Image>().sprite = star[PlayerPrefs.GetInt("Stage2_" + mapName) - 1];
+                    AllStar += PlayerPrefs.GetInt("Stage2_" + mapName);
                 }
 
             }
